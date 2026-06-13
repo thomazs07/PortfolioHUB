@@ -1,20 +1,420 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>PortfolioHUB</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thomaz Stofel — Portfólio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0b0f1a;
+      --surface:  #111827;
+      --border:   #1e2a3a;
+      --accent:   #6c63ff;
+      --accent2:  #00d4aa;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+      --card:     #141c2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: rgba(11,15,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem; color: var(--accent2);
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 7rem 2.5rem 4rem;
+      max-width: 900px; margin: 0 auto;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: var(--accent2);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-name {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .hero-name span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.15rem; color: var(--muted); max-width: 520px;
+    }
+    .hero-cta {
+      margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px; font-size: 0.95rem; font-weight: 600;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.3); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent); box-shadow: 0 8px 24px rgba(108,99,255,0.15); }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 5rem 2.5rem; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; color: var(--accent);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 700; letter-spacing: -0.01em;
+      margin-bottom: 2.5rem;
+    }
+    .divider {
+      width: 100%; height: 1px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .about-text { color: var(--muted); font-size: 1rem; line-height: 1.8; }
+    .about-text strong { color: var(--text); }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+    .tag {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem; border-radius: 999px;
+      font-size: 0.8rem; color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .stats { display: flex; flex-direction: column; gap: 1.2rem; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.4rem 1.6rem;
+    }
+    .stat-num {
+      font-size: 2rem; font-weight: 700; color: var(--accent2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .stat-desc { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .skill-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.4rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .skill-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+    .skill-name { font-weight: 600; font-size: 0.95rem; }
+    .skill-level {
+      margin-top: 0.8rem; height: 4px;
+      background: var(--border); border-radius: 999px; overflow: hidden;
+    }
+    .skill-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 999px;
+    }
+
+    /* ── PROJETOS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.2rem;
+    }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.6rem;
+      display: flex; flex-direction: column; gap: 0.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-card:hover::before { opacity: 1; }
+    .project-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--accent2);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .project-title { font-size: 1.1rem; font-weight: 700; }
+    .project-desc { font-size: 0.88rem; color: var(--muted); flex: 1; }
+    .project-links { display: flex; gap: 0.8rem; margin-top: 0.5rem; }
+    .project-links a {
+      font-size: 0.82rem; color: var(--accent);
+      text-decoration: none; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .project-links a:hover { color: var(--accent2); }
+
+    /* ── CONTATO ── */
+    .contact-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 3rem;
+      text-align: center;
+    }
+    .contact-box p { color: var(--muted); margin-bottom: 2rem; max-width: 420px; margin-inline: auto; }
+    .social-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .social-links a {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); padding: 0.6rem 1.3rem;
+      border-radius: 8px; font-size: 0.88rem; text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-links a:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      #hero, section { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-box { padding: 2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
 </head>
 <body>
 
-    <h1>PortfolioHUB</h1>
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">tsbs.dev</span>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#habilidades">Skills</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
 
-    <p>
-        Repositório criado para armazenar meus projetos acadêmicos.
+  <!-- HERO -->
+  <section id="hero">
+    <p class="hero-eyebrow">// Bem-vindo ao meu portfólio</p>
+    <h1 class="hero-name">
+      Thomaz Stofel<br/><span>Benevides Da Silva</span>
+    </h1>
+    <p class="hero-sub">
+      Estudante de Tecnologia apaixonado por programação, banco de dados e soluções que fazem a diferença no mundo real.
     </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projetos">Ver Projetos</a>
+      <a class="btn btn-outline" href="#contato">Entre em Contato</a>
+    </div>
+  </section>
 
-    <p>
-        Desenvolvido utilizando GitHub e GitHub Pages.
-    </p>
+  <div class="divider"></div>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <p class="section-label">// 01 — Sobre</p>
+    <h2>Quem sou eu</h2>
+    <div class="about-grid">
+      <div>
+        <p class="about-text">
+          Sou <strong>Thomaz Stofel Benevides Da Silva</strong>, estudante de Tecnologia no primeiro semestre, cursando no período noturno enquanto construo experiência prática em desenvolvimento e infraestrutura.
+        </p>
+        <p class="about-text" style="margin-top:1rem;">
+          Tenho curiosidade genuína por como sistemas funcionam — da lógica de banco de dados até a experiência do usuário final. Atualmente participando de um <strong>Bootcamp de Tecnologia</strong> focado em boas práticas de desenvolvimento e colaboração com ferramentas modernas como Git, GitHub e IA.
+        </p>
+        <div class="about-tags">
+          <span class="tag">Git & GitHub</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Google Workspace</span>
+          <span class="tag">Gemini AI</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-num">1°</div>
+          <div class="stat-desc">Semestre em Tecnologia</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3+</div>
+          <div class="stat-desc">Projetos entregues no Bootcamp</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-desc">Dedicação em cada entrega</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HABILIDADES -->
+  <section id="habilidades">
+    <p class="section-label">// 02 — Habilidades</p>
+    <h2>O que eu sei fazer</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">HTML & CSS</div>
+        <div class="skill-level"><div class="skill-bar" style="width:75%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗃️</div>
+        <div class="skill-name">SQL / Banco de Dados</div>
+        <div class="skill-level"><div class="skill-bar" style="width:70%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🐙</div>
+        <div class="skill-name">Git & GitHub</div>
+        <div class="skill-level"><div class="skill-bar" style="width:65%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🤖</div>
+        <div class="skill-name">Gemini AI</div>
+        <div class="skill-level"><div class="skill-bar" style="width:60%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">☁️</div>
+        <div class="skill-name">Google Workspace</div>
+        <div class="skill-level"><div class="skill-bar" style="width:80%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🐧</div>
+        <div class="skill-name">Linux (básico)</div>
+        <div class="skill-level"><div class="skill-bar" style="width:50%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJETOS -->
+  <section id="projetos">
+    <p class="section-label">// 03 — Projetos</p>
+    <h2>O que já construí</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <span class="project-tag">Bootcamp · GitHub Pages</span>
+        <div class="project-title">PortfolioHUB</div>
+        <p class="project-desc">
+          Plataforma centralizada para exibir e gerenciar projetos digitais. Integração com GitHub, controle de versão e boas práticas de segurança.
+        </p>
+        <div class="project-links">
+          <a href="#">→ Ver site</a>
+          <a href="#">→ Repositório</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-tag">Banco de Dados · MySQL</span>
+        <div class="project-title">Sistema Biblioteca Ativa</div>
+        <p class="project-desc">
+          Schema DDL completo para sistema de biblioteca com diagrama ER em notação crow's foot, implementado em MySQL.
+        </p>
+        <div class="project-links">
+          <a href="#">→ Repositório</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-tag">Banco de Dados · MySQL Workbench</span>
+        <div class="project-title">BioTech Health</div>
+        <p class="project-desc">
+          Schema físico para sistema hospitalar com 20 tabelas, tipagem precisa de dados e script gerador para MySQL Workbench.
+        </p>
+        <div class="project-links">
+          <a href="#">→ Repositório</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <p class="section-label">// 04 — Contato</p>
+    <h2>Vamos conversar</h2>
+    <div class="contact-box">
+      <p>
+        Estou aberto a conexões, colaborações e oportunidades de aprendizado. Fique à vontade para entrar em contato!
+      </p>
+      <a class="btn btn-primary" href="mailto:seuemail@exemplo.com">✉ Enviar e-mail</a>
+      <div class="social-links">
+        <a href="https://github.com/" target="_blank">github</a>
+        <a href="https://linkedin.com/" target="_blank">linkedin</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Thomaz Stofel Benevides Da Silva — feito com 💜 e GitHub Pages</p>
+  </footer>
 
 </body>
 </html>
